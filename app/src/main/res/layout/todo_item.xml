@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <CheckBox
-        android:id="@+id/complete_radio_button"
+        android:id="@+id/complete_check_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -14,12 +14,12 @@
         android:buttonTint="@color/separator"/>
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/item_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/chevron_image_button"
-        app:layout_constraintStart_toEndOf="@+id/complete_radio_button"
+        app:layout_constraintEnd_toStartOf="@id/info_image_button"
+        app:layout_constraintStart_toEndOf="@+id/complete_check_box"
         app:layout_constraintTop_toTopOf="parent"
         android:text="Pospat"
         android:textSize="20sp"
@@ -28,15 +28,15 @@
         android:ellipsize="end"/>
 
     <ImageButton
-        android:id="@+id/chevron_image_button"
+        android:id="@+id/info_image_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:background="@null"
         android:src="@drawable/info"
-        android:tint="@color/tertiary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/tertiary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
