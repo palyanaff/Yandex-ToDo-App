@@ -2,4 +2,6 @@
     <string name="app_name">Yandex-ToDo-App</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="my_tasks">My tasks</string>
+    <string name="complete_">Complete — 2</string>
 </resources>

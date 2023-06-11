@@ -1,7 +1,8 @@
-package ru.palyanaff.yandex_todo_app
+package ru.palyanaff.yandex_todo_app.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import ru.palyanaff.yandex_todo_app.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
