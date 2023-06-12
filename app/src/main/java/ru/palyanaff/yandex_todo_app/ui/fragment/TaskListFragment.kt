@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.palyanaff.yandex_todo_app.R
 import ru.palyanaff.yandex_todo_app.data.repository.TodoItemRepository
 import ru.palyanaff.yandex_todo_app.ui.adapter.TaskAdapter
@@ -38,8 +40,17 @@ class TaskListFragment : Fragment() {
         taskRecyclerView.adapter = taskAdapter
         taskRecyclerView.layoutManager = layoutManager
         taskAdapter.tasks= taskRepository.getList()
+
+        val fab = view.findViewById<FloatingActionButton>(R.id.add_task_button)
+        fab.setOnClickListener {
+            createNewTask()
+        }
         return view
 
+    }
+
+    private fun createNewTask() {
+        findNavController().navigate(R.id.action_taskListFragment_to_newTaskFragment)
     }
 
 }
