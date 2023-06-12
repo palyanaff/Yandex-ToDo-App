@@ -1,13 +1,16 @@
 package ru.palyanaff.yandex_todo_app.ui.view_holder
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import ru.palyanaff.yandex_todo_app.R
 import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
@@ -27,6 +30,17 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         drawablePriorityLow?.setColorFilter(colorGray, PorterDuff.Mode.SRC_IN)
 
         itemText.text = todoItem.text
+        when (todoItem.complete){
+            true -> {
+                checkBox.isChecked = true
+                // TODO: it works
+                /*itemText.setTextColor(colorGray)
+                itemText.paintFlags = itemText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG*/
+            }
+            false -> {
+                checkBox.isChecked = false
+            }
+        }
         when (todoItem.priority) {
             PriorityStatus.HIGH -> {
                 itemText.setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -50,5 +64,9 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 )
             }
         }
+    }
+
+    private fun openTask(){ // TODO: send TodoItem in fragment
+        itemView.findNavController().navigate(R.id.action_taskListFragment_to_newTaskFragment)
     }
 }
