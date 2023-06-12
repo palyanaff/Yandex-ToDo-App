@@ -22,6 +22,8 @@
         app:layout_constraintStart_toEndOf="@+id/complete_check_box"
         app:layout_constraintTop_toTopOf="parent"
         android:text="Pospat"
+        app:drawableStartCompat="@drawable/priority_high"
+        app:drawableTint="@color/red"
         android:textSize="20sp"
         android:textColor="@color/primary"
         android:maxLines="3"
