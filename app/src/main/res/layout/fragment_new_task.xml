@@ -85,7 +85,8 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/date_text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/date_label_text" />
+            app:layout_constraintTop_toTopOf="@+id/date_label_text"
+            app:layout_constraintVertical_bias="0.555" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider"

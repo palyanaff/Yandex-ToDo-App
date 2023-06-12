@@ -17,17 +17,18 @@
         android:id="@+id/item_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="14dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:text="Pospat"
+        android:textColor="@color/primary"
+        android:textSize="16sp"
+        app:drawableStartCompat="@drawable/priority_high"
+        app:drawableTint="@color/red"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/info_image_button"
         app:layout_constraintStart_toEndOf="@+id/complete_check_box"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="Pospat"
-        app:drawableStartCompat="@drawable/priority_high"
-        app:drawableTint="@color/red"
-        android:textSize="20sp"
-        android:textColor="@color/primary"
-        android:maxLines="3"
-        android:ellipsize="end"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/info_image_button"
