@@ -30,6 +30,7 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         drawablePriorityLow?.setColorFilter(colorGray, PorterDuff.Mode.SRC_IN)
 
         itemText.text = todoItem.text
+        infoButton.setOnClickListener{ openTask() }
         when (todoItem.complete){
             true -> {
                 checkBox.isChecked = true
