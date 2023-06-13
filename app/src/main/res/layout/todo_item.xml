@@ -12,7 +12,6 @@
         android:layout_height="20dp"
         android:layout_marginStart="16dp"
         android:checked="false"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
         <!--android:buttonTint="@color/checkbox_button_tint"-->
@@ -21,6 +20,7 @@
         android:id="@+id/item_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
         android:layout_marginEnd="14dp"
         android:ellipsize="end"
         android:maxLines="3"
@@ -29,7 +29,6 @@
         android:textSize="16sp"
         app:drawableStartCompat="@drawable/priority_high"
         app:drawableTint="@color/red"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/info_image_button"
         app:layout_constraintStart_toEndOf="@+id/complete_check_box"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,9 +40,18 @@
         android:layout_marginEnd="16dp"
         android:background="@null"
         android:src="@drawable/info"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/tertiary" />
 
+    <TextView
+        android:id="@+id/data_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Data"
+        android:textColor="@color/tertiary"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/item_text"
+        app:layout_constraintTop_toBottomOf="@+id/item_text" />
 </androidx.constraintlayout.widget.ConstraintLayout>
