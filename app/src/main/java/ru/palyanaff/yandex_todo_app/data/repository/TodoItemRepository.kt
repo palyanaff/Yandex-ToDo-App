@@ -10,7 +10,7 @@ class TodoItemRepository {
         TodoItem("2", "start", PriorityStatus.NORMAL, complete = false, null, "now", null),
         TodoItem("3", "pokushat ooo oooo oo oc ccc ccc ccc ccc hee eee ee eeen mnoga i vkusno",
             PriorityStatus.HIGH, complete = true, null, "now", null),
-        TodoItem("4", "pospato oooooo ooocc ccccc cccccc heeeee eeeeen mnoga i oooooo ooocc ccccc cccccc heeeee eeeeen mnoga",
+        TodoItem("4", "pospato oo oooo ooo cc cc ccc cc cccc heeeee eeeeen mnoga i oooo oo ooo cc ccc cc cccc cc heee ee eee een mno ga",
             PriorityStatus.HIGH, complete = false, null, "now", null),
         TodoItem("5", "pospat", PriorityStatus.NORMAL, complete = true, null, "now", null),
         TodoItem("6", "pospat", PriorityStatus.NORMAL, complete = false, null, "now", null),
