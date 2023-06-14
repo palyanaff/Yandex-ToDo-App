@@ -9,4 +9,7 @@
     <string name="do_before">Do before</string>
     <string name="delete">Delete</string>
     <string name="_2_june_2023">2 june 2023</string>
+    <string name="high">High</string>
+    <string name="low">Low</string>
+    <string name="normal">Normal</string>
 </resources>

@@ -1,6 +1,7 @@
 package ru.palyanaff.yandex_todo_app.ui.fragment
 
 import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -40,28 +41,35 @@ class NewTaskFragment : Fragment() {
         val dateText = view.findViewById<TextView>(R.id.date_text)
         val closeButton  = view.findViewById<ImageButton>(R.id.close_image_button)
         val dateSwitch = view.findViewById<Switch>(R.id.date_switch)
-        val prioritySpinner = view.findViewById<Spinner>(R.id.priority_spinner)
         val priorityText = view.findViewById<TextView>(R.id.priority_text)
+        val priorityLabelText = view.findViewById<TextView>(R.id.priority_label_text)
 
-        // Initialization list of enum elements
-        val priorityValues = PriorityStatus.values().toList()
-        // Initialization adapter for connection enum elements with Spinner
-        val adapter = ArrayAdapter(view.context, android.R.layout.simple_spinner_item, priorityValues)
-        // Set layout interface
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        prioritySpinner.adapter = adapter
-        // Set Listener to track the user choice
-        prioritySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                // Set text TODO: изменить spinner lable(хз) чтоб на экране остался только TextView
-                val selectedEnumValue = priorityValues[position]
-                priorityText.text = selectedEnumValue.toString()
+        val popupMenu = PopupMenu(view.context, priorityLabelText)
+        popupMenu.menuInflater.inflate(R.menu.menu_priority, popupMenu.menu)
+
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            // TODO: set priority to TodoItem
+            when (menuItem.itemId) {
+                R.id.priority_high -> {
+                    priorityText.text = getString(R.string.high)
+                    true
+                }
+                R.id.priority_normal -> {
+                    priorityText.text = getString(R.string.normal)
+                    true
+                }
+                R.id.priority_low -> {
+                    priorityText.text = getString(R.string.low)
+                    true
+                }
+                else -> false
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Действия при отсутствии выбранного элемента
-            }
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            popupMenu.setForceShowIcon(true)
+        }
+        priorityLabelText.setOnClickListener { popupMenu.show() }
 
         saveText.setOnClickListener{ saveTask() }
         deleteButton.setOnClickListener { deleteTask() }
@@ -81,7 +89,7 @@ class NewTaskFragment : Fragment() {
     }
 
     /**
-     * Open a DatePickerDialog and set date which were chosen
+     * Open a [DatePickerDialog] and set date which were chosen
      */
     private fun chooseDate(view: View, dateText: TextView) {
         val calendar = Calendar.getInstance()

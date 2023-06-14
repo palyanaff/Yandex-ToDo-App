@@ -39,19 +39,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:elevation="16dp"
+            android:minHeight="120dp"
+            app:cardCornerRadius="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:elevation="16dp"
-            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/close_image_button">
 
             <EditText
                 android:id="@+id/edit_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:background="@null"
                 android:hint="@string/need_to_do_something"
-                android:inputType="textLongMessage"
-                android:minLines="3" />
+                android:inputType="textMultiLine"
+                android:minHeight="120dp"
+                android:textColorHint="@color/tertiary"
+                android:gravity="top|start"/>
 
         </androidx.cardview.widget.CardView>
 
@@ -67,7 +74,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-        <Spinner
+        <!--<Spinner
             android:id="@+id/priority_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,7 +85,7 @@
             android:textColor="@color/tertiary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/priority_label_text" />
-
+-->
         <TextView
             android:id="@+id/priority_text"
             android:layout_width="wrap_content"
@@ -105,8 +112,8 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             app:dividerColor="@color/separator"
             app:layout_constraintEnd_toEndOf="parent"
@@ -142,13 +149,13 @@
             android:id="@+id/divider2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="96dp"
             android:layout_marginEnd="16dp"
             app:dividerColor="@color/separator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/date_text" />
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
 
         <ImageButton
             android:id="@+id/delete_image_button"
