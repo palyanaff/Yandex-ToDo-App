@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.palyanaff.yandex_todo_app.R
 import ru.palyanaff.yandex_todo_app.data.repository.TodoItemRepository
 import ru.palyanaff.yandex_todo_app.ui.adapter.TaskAdapter
+import ru.palyanaff.yandex_todo_app.ui.view_model.TaskListViewModel
 
 
 /**
@@ -22,6 +24,8 @@ import ru.palyanaff.yandex_todo_app.ui.adapter.TaskAdapter
  */
 class TaskListFragment : Fragment() {
 
+    //инициализируем ViewModel ленивым способом
+    private lateinit var taskListViewModel: TaskListViewModel
     lateinit var taskRecyclerView: RecyclerView
     private val taskRepository = TodoItemRepository()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,12 +38,13 @@ class TaskListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_task_list, container, false)
+        taskListViewModel = ViewModelProvider(this)[TaskListViewModel::class.java]
         taskRecyclerView = view.findViewById(R.id.task_list_recycler_view)
         val taskAdapter = TaskAdapter()
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         taskRecyclerView.adapter = taskAdapter
         taskRecyclerView.layoutManager = layoutManager
-        taskAdapter.tasks= taskRepository.getList()
+        taskAdapter.tasks = taskListViewModel.taskList.value!!
 
         val fab = view.findViewById<FloatingActionButton>(R.id.add_task_button)
         fab.setOnClickListener {

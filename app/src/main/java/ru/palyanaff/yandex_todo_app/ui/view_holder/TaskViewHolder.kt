@@ -45,18 +45,12 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         when (todoItem.priority) {
             PriorityStatus.HIGH -> {
                 itemText.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    drawablePriorityHigh,
-                    null,
-                    null,
-                    null
+                    drawablePriorityHigh,null,null,null
                 )
             }
             PriorityStatus.LOW -> {
                 itemText.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    drawablePriorityLow,
-                    null,
-                    null,
-                    null
+                    drawablePriorityLow,null,null,null
                 )
             }
             else -> {
