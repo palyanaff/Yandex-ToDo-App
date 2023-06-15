@@ -38,7 +38,7 @@ class NewTaskFragment : Fragment() {
         val saveText = view.findViewById<TextView>(R.id.save_task_text)
         val deleteButton = view.findViewById<ImageButton>(R.id.delete_image_button)
         val deleteText = view.findViewById<TextView>(R.id.delete_text)
-        val dateText = view.findViewById<TextView>(R.id.date_text)
+        val dateText = view.findViewById<TextView>(R.id.data_set_text)
         val closeButton  = view.findViewById<ImageButton>(R.id.close_image_button)
         val dateSwitch = view.findViewById<Switch>(R.id.date_switch)
         val priorityText = view.findViewById<TextView>(R.id.priority_text)
