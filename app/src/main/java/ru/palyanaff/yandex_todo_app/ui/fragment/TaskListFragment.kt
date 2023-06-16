@@ -48,7 +48,6 @@ class TaskListFragment : Fragment() {
         val fab = view.findViewById<FloatingActionButton>(R.id.add_task_button)
         fab.setOnClickListener { createNewTask() }
         return view
-
     }
 
     private fun createNewTask() {

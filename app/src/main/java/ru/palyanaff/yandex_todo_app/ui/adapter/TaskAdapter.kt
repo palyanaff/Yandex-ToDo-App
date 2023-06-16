@@ -15,9 +15,8 @@ import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
 import ru.palyanaff.yandex_todo_app.ui.view_holder.TaskViewHolder
 
-class TaskAdapter: RecyclerView.Adapter<TaskViewHolder>() {
+class TaskAdapter : RecyclerView.Adapter<TaskViewHolder>() {
     var tasks = listOf<TodoItem>()
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

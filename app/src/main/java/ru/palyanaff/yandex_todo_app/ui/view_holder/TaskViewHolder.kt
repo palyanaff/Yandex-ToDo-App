@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PorterDuff
+import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageButton
@@ -37,7 +38,7 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             dataText.visibility = View.VISIBLE
         }
 
-        infoButton.setOnClickListener{ openTask() }
+        infoButton.setOnClickListener{ openTask(todoItem) }
         when (todoItem.complete){
             true -> {
                 checkBox.isChecked = true
@@ -68,7 +69,7 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         }
     }
 
-    private fun openTask(){ // TODO: send TodoItem in fragment
+    private fun openTask(todoItem: TodoItem){ // TODO: send TodoItem in fragment
         itemView.findNavController().navigate(R.id.action_taskListFragment_to_newTaskFragment)
     }
 }
