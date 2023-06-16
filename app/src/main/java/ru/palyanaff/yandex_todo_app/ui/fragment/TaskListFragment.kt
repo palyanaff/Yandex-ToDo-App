@@ -24,10 +24,9 @@ import ru.palyanaff.yandex_todo_app.ui.view_model.TaskListViewModel
  */
 class TaskListFragment : Fragment() {
 
-    //инициализируем ViewModel ленивым способом
+    // Initialize ViewModel
     private lateinit var taskListViewModel: TaskListViewModel
     lateinit var taskRecyclerView: RecyclerView
-    private val taskRepository = TodoItemRepository()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -38,7 +37,7 @@ class TaskListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_task_list, container, false)
-        taskListViewModel = ViewModelProvider(this)[TaskListViewModel::class.java]
+        taskListViewModel = ViewModelProvider(requireActivity())[TaskListViewModel::class.java]
         taskRecyclerView = view.findViewById(R.id.task_list_recycler_view)
         val taskAdapter = TaskAdapter()
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -47,9 +46,7 @@ class TaskListFragment : Fragment() {
         taskAdapter.tasks = taskListViewModel.taskList.value!!
 
         val fab = view.findViewById<FloatingActionButton>(R.id.add_task_button)
-        fab.setOnClickListener {
-            createNewTask()
-        }
+        fab.setOnClickListener { createNewTask() }
         return view
 
     }

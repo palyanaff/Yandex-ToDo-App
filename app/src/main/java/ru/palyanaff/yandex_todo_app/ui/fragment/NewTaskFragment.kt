@@ -3,15 +3,18 @@ package ru.palyanaff.yandex_todo_app.ui.fragment
 import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import org.w3c.dom.Text
 import ru.palyanaff.yandex_todo_app.R
 import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
+import ru.palyanaff.yandex_todo_app.data.model.TodoItem
+import ru.palyanaff.yandex_todo_app.ui.view_model.NewTaskViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,6 +24,9 @@ import java.util.*
  * create an instance of this fragment.
  */
 class NewTaskFragment : Fragment() {
+    private val TAG = "NewTaskFragment"
+    private lateinit var editText: EditText //TODO: reform edit text
+    private lateinit var newTaskViewModel: NewTaskViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,14 +41,27 @@ class NewTaskFragment : Fragment() {
     ): View? {
         // Initialize all views on screen
         val view: View = inflater.inflate(R.layout.fragment_new_task, container, false)
+
+        newTaskViewModel = ViewModelProvider(requireActivity())[NewTaskViewModel::class.java]
+
         val saveText = view.findViewById<TextView>(R.id.save_task_text)
         val deleteButton = view.findViewById<ImageButton>(R.id.delete_image_button)
         val deleteText = view.findViewById<TextView>(R.id.delete_text)
-        val dateText = view.findViewById<TextView>(R.id.data_set_text)
-        val closeButton  = view.findViewById<ImageButton>(R.id.close_image_button)
+        val dateText = view.findViewById<TextView>(R.id.date_set_text)
+        val closeButton = view.findViewById<ImageButton>(R.id.close_image_button)
         val dateSwitch = view.findViewById<Switch>(R.id.date_switch)
         val priorityText = view.findViewById<TextView>(R.id.priority_text)
         val priorityLabelText = view.findViewById<TextView>(R.id.priority_label_text)
+        editText = view.findViewById<EditText>(R.id.new_edit_text)
+
+        newTaskViewModel.taskItem.observe(requireActivity()) { newItem ->
+            newItem.let {
+                dateText.text = newItem.deadlineDate
+                priorityText.text = newItem.priority.toString()
+
+            }
+        }
+        Log.e(TAG, newTaskViewModel.taskItem.value?.priority.toString())
 
         val popupMenu = PopupMenu(view.context, priorityLabelText)
         popupMenu.menuInflater.inflate(R.menu.menu_priority, popupMenu.menu)
@@ -51,41 +70,54 @@ class NewTaskFragment : Fragment() {
             // TODO: set priority to TodoItem
             when (menuItem.itemId) {
                 R.id.priority_high -> {
+                    newTaskViewModel.setPriority(PriorityStatus.HIGH)
                     priorityText.text = getString(R.string.high)
                     true
                 }
                 R.id.priority_normal -> {
+                    newTaskViewModel.setPriority(PriorityStatus.NORMAL)
                     priorityText.text = getString(R.string.normal)
                     true
                 }
                 R.id.priority_low -> {
+                    newTaskViewModel.setPriority(PriorityStatus.LOW)
                     priorityText.text = getString(R.string.low)
                     true
                 }
                 else -> false
             }
-
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             popupMenu.setForceShowIcon(true)
         }
-        priorityLabelText.setOnClickListener { popupMenu.show() }
-
-        saveText.setOnClickListener{ saveTask() }
+        priorityLabelText.setOnClickListener {
+            popupMenu.show()
+            Log.e(TAG, newTaskViewModel.taskItem.value?.priority.toString())
+        }
+        saveText.setOnClickListener { saveTask() }
         deleteButton.setOnClickListener { deleteTask() }
         deleteText.setOnClickListener { deleteTask() }
         closeButton.setOnClickListener { closeTask() }
         // Set switcher listener for setting deadline date
-        dateSwitch.setOnCheckedChangeListener  { _, isChecked ->
-            if(isChecked){
-                chooseDate(view, dateText)
+        dateSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                Log.e(TAG, newTaskViewModel.taskItem.value?.deadlineDate.toString())
+                if (newTaskViewModel.taskItem.value?.deadlineDate?.isEmpty() == true) {
+                    chooseDate(view, dateText)
+                }
 
-            }else{
+            } else {
                 dateText.visibility = View.INVISIBLE
+                newTaskViewModel.taskItem.value?.deadlineDate = ""
             }
         }
 
         return view
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
     }
 
     /**
@@ -104,10 +136,9 @@ class NewTaskFragment : Fragment() {
                 selectedDate.set(year, month, dayOfMonth)
                 val dateFormat = SimpleDateFormat("MMMM", Locale.getDefault())
                 val monthName = dateFormat.format(selectedDate.time).lowercase()
-                // TODO: set deadline date in TodoItem
-
-                dateText.text = "$dayOfMonth $monthName $year"
+                newTaskViewModel.setDeadline("$dayOfMonth $monthName $year")
                 dateText.visibility = View.VISIBLE
+                dateText.text = "$dayOfMonth $monthName $year"
             },
             year, month, day
         )
@@ -117,22 +148,24 @@ class NewTaskFragment : Fragment() {
     /**
      * Save [TodoItem] and navigate to [TaskListFragment]
      */
-    private fun saveTask(){
-        // TODO: save TodoItem
+    private fun saveTask() {
+        // Add text from editText to todoItem
+        newTaskViewModel.setText(editText.text.toString())
+        newTaskViewModel.saveTodoItem()
         findNavController().navigate(R.id.action_newTaskFragment_to_taskListFragment)
     }
 
     /**
      * Delete current information and navigate to [TaskListFragment]
      */
-    private fun deleteTask(){
+    private fun deleteTask() {
         findNavController().navigate(R.id.action_newTaskFragment_to_taskListFragment)
     }
 
     /**
      * Navigate to [TaskListFragment]
      */
-    private fun closeTask(){
+    private fun closeTask() {
         findNavController().navigate(R.id.action_newTaskFragment_to_taskListFragment)
     }
 

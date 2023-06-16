@@ -49,7 +49,7 @@
             app:layout_constraintTop_toBottomOf="@+id/close_image_button">
 
             <EditText
-                android:id="@+id/edit_text"
+                android:id="@+id/new_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="16dp"
@@ -103,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/data_set_text"
+            app:layout_constraintBottom_toBottomOf="@+id/date_set_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/date_label_text"
             app:layout_constraintVertical_bias="0.555" />
@@ -133,15 +133,14 @@
             app:layout_constraintTop_toBottomOf="@+id/divider" />
 
         <TextView
-            android:id="@+id/data_set_text"
+            android:id="@+id/date_set_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
-            android:text="@string/_2_june_2023"
             android:textColor="@color/blue"
             android:textSize="14sp"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/date_label_text" />
 
