@@ -9,8 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import ru.palyanaff.yandex_todo_app.App
 import ru.palyanaff.yandex_todo_app.R
 import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
@@ -25,12 +27,15 @@ import java.util.*
  */
 class NewTaskFragment : Fragment() {
     private val TAG = "NewTaskFragment"
-    private lateinit var editText: EditText //TODO: reform edit text
-    private lateinit var viewModel: NewTaskViewModel
 
+    private val applicationComponent
+        get() = App.get(requireContext()).applicationComponent
+
+    private val viewModel: NewTaskViewModel by viewModels { applicationComponent.newTaskViewModelFactory }
+
+    private lateinit var editText: EditText //TODO: reform edit text
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(NewTaskViewModel::class.java)
         arguments?.let {
 
         }
@@ -53,6 +58,7 @@ class NewTaskFragment : Fragment() {
         val priorityLabelText = view.findViewById<TextView>(R.id.priority_label_text)
         editText = view.findViewById<EditText>(R.id.new_edit_text)
 
+        // TODO: change requireActivity to lifecycleOwner
         viewModel.taskItem.observe(requireActivity()) { newItem ->
             newItem.let {
                 dateText.text = newItem.deadlineDate

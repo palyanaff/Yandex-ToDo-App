@@ -9,12 +9,12 @@ import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
 import ru.palyanaff.yandex_todo_app.data.repository.TodoItemRepository
 
-class NewTaskViewModel : ViewModel() {
+class NewTaskViewModel(
+    private val todoItemRepository: TodoItemRepository
+) : ViewModel() {
     private val TAG = "NewTaskViewModel"
     private var _taskItem = MutableLiveData<TodoItem>()
     val taskItem: LiveData<TodoItem> = _taskItem
-
-    private val todoItemRepository = TodoItemRepository(DataSource())
 
     init {
         _taskItem.value = TodoItem()
@@ -41,7 +41,7 @@ class NewTaskViewModel : ViewModel() {
     fun saveTodoItem() {
         _taskItem.value?.let {
             todoItemRepository.addItem(it)
-            Log.e(TAG, todoItemRepository.itemList.value.toString())
+            Log.e("$TAG added:", todoItemRepository.itemList.value.toString())
         }
     }
 }

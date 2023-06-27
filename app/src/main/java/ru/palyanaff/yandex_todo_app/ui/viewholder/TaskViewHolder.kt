@@ -11,11 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.palyanaff.yandex_todo_app.R
 import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
+import ru.palyanaff.yandex_todo_app.ui.viewmodel.TaskListViewModel
 
-class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val checkBox: CheckBox = itemView.findViewById(R.id.complete_check_box)
-    private val itemText: TextView = itemView.findViewById(R.id.item_text)
-    private val infoButton: ImageButton = itemView.findViewById(R.id.info_image_button)
+class TaskViewHolder(
+    itemView: View,
+    private val viewModel: TaskListViewModel,
+) : RecyclerView.ViewHolder(itemView) {
+    private val checkBox = itemView.findViewById<CheckBox>(R.id.complete_check_box)
+    private val itemText = itemView.findViewById<TextView>(R.id.item_text)
+    private val infoButton = itemView.findViewById<ImageButton>(R.id.info_image_button)
     private val dataText = itemView.findViewById<TextView>(R.id.data_text)
 
     private val colorRed = ContextCompat.getColor(itemView.context, R.color.red)

@@ -1,5 +1,7 @@
 package ru.palyanaff.yandex_todo_app.data.repository
 
+import android.util.Log
+import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
@@ -8,12 +10,19 @@ import ru.palyanaff.yandex_todo_app.data.datasource.DataSource
 import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
 
-class TodoItemRepository(private val dataSource: DataSource){
+class TodoItemRepository(
+    private val dataSource: DataSource
+) {
+    private val TAG = "TodoItemRepository"
     private val _itemList = MutableLiveData<MutableList<TodoItem>>()
     val itemList: LiveData<MutableList<TodoItem>> = _itemList
+
+    @MainThread
     suspend fun updateTodoList() {
-        val loadList = withContext(Dispatchers.IO) {dataSource.loadTodoItems()} as MutableList<TodoItem>
+        val loadList =
+            withContext(Dispatchers.IO) { dataSource.loadTodoItems() } as MutableList<TodoItem>
         _itemList.value = loadList
+        Log.i(TAG, _itemList.value.toString())
     }
 
     fun addItem(item: TodoItem) {

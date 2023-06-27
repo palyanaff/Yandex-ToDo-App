@@ -2,25 +2,29 @@ package ru.palyanaff.yandex_todo_app.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.palyanaff.yandex_todo_app.R
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
 import ru.palyanaff.yandex_todo_app.ui.viewholder.TaskViewHolder
+import ru.palyanaff.yandex_todo_app.ui.viewmodel.TaskListViewModel
 
-class TaskAdapter : RecyclerView.Adapter<TaskViewHolder>() {
-    var tasks = listOf<TodoItem>()
+class TaskAdapter(
+    private val viewModel: TaskListViewModel,
+    taskDiffUtil: TaskDiffUtil
+) : ListAdapter<TodoItem, TaskViewHolder>(taskDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        return TaskViewHolder(
-            layoutInflater.inflate(R.layout.todo_item, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(
+            R.layout.todo_item,
+            parent,
+            false
         )
+        return TaskViewHolder(itemView, viewModel)
     }
 
-    override fun getItemCount() = tasks.size
-
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.onBind(tasks[position])
+        holder.onBind(getItem(position))
     }
 }
 
