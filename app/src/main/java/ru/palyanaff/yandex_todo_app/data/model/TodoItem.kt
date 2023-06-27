@@ -6,7 +6,7 @@ data class TodoItem(
     val id: String = "",
     var text: String = "",
     var priority: PriorityStatus = PriorityStatus.NORMAL,
-    val complete: Boolean = false,
+    var complete: Boolean = false,
     var deadlineDate: String? = "",  //TODO: изменить на Date
     val creationDate: String = "",   //TODO: изменить на Date
     val changeDate: String? = "",    //TODO: изменить на Date

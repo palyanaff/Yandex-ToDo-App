@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import ru.palyanaff.yandex_todo_app.R
 import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
-import ru.palyanaff.yandex_todo_app.ui.view_model.NewTaskViewModel
+import ru.palyanaff.yandex_todo_app.ui.viewmodel.NewTaskViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,10 +26,11 @@ import java.util.*
 class NewTaskFragment : Fragment() {
     private val TAG = "NewTaskFragment"
     private lateinit var editText: EditText //TODO: reform edit text
-    private lateinit var newTaskViewModel: NewTaskViewModel
+    private lateinit var viewModel: NewTaskViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(requireActivity()).get(NewTaskViewModel::class.java)
         arguments?.let {
 
         }
@@ -42,8 +43,6 @@ class NewTaskFragment : Fragment() {
         // Initialize all views on screen
         val view: View = inflater.inflate(R.layout.fragment_new_task, container, false)
 
-        newTaskViewModel = ViewModelProvider(requireActivity())[NewTaskViewModel::class.java]
-
         val saveText = view.findViewById<TextView>(R.id.save_task_text)
         val deleteButton = view.findViewById<ImageButton>(R.id.delete_image_button)
         val deleteText = view.findViewById<TextView>(R.id.delete_text)
@@ -54,14 +53,14 @@ class NewTaskFragment : Fragment() {
         val priorityLabelText = view.findViewById<TextView>(R.id.priority_label_text)
         editText = view.findViewById<EditText>(R.id.new_edit_text)
 
-        newTaskViewModel.taskItem.observe(requireActivity()) { newItem ->
+        viewModel.taskItem.observe(requireActivity()) { newItem ->
             newItem.let {
                 dateText.text = newItem.deadlineDate
                 priorityText.text = newItem.priority.toString()
-
+                editText.setText(newItem.text)
             }
         }
-        Log.e(TAG, newTaskViewModel.taskItem.value?.priority.toString())
+        Log.e(TAG, viewModel.taskItem.value?.priority.toString())
 
         val popupMenu = PopupMenu(view.context, priorityLabelText)
         popupMenu.menuInflater.inflate(R.menu.menu_priority, popupMenu.menu)
@@ -70,17 +69,17 @@ class NewTaskFragment : Fragment() {
             // TODO: set priority to TodoItem
             when (menuItem.itemId) {
                 R.id.priority_high -> {
-                    newTaskViewModel.setPriority(PriorityStatus.HIGH)
+                    viewModel.setPriority(PriorityStatus.HIGH)
                     priorityText.text = getString(R.string.high)
                     true
                 }
                 R.id.priority_normal -> {
-                    newTaskViewModel.setPriority(PriorityStatus.NORMAL)
+                    viewModel.setPriority(PriorityStatus.NORMAL)
                     priorityText.text = getString(R.string.normal)
                     true
                 }
                 R.id.priority_low -> {
-                    newTaskViewModel.setPriority(PriorityStatus.LOW)
+                    viewModel.setPriority(PriorityStatus.LOW)
                     priorityText.text = getString(R.string.low)
                     true
                 }
@@ -92,7 +91,7 @@ class NewTaskFragment : Fragment() {
         }
         priorityLabelText.setOnClickListener {
             popupMenu.show()
-            Log.e(TAG, newTaskViewModel.taskItem.value?.priority.toString())
+            Log.e(TAG, viewModel.taskItem.value?.priority.toString())
         }
         saveText.setOnClickListener { saveTask() }
         deleteButton.setOnClickListener { deleteTask() }
@@ -101,14 +100,14 @@ class NewTaskFragment : Fragment() {
         // Set switcher listener for setting deadline date
         dateSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                Log.e(TAG, newTaskViewModel.taskItem.value?.deadlineDate.toString())
-                if (newTaskViewModel.taskItem.value?.deadlineDate?.isEmpty() == true) {
+                Log.e(TAG, viewModel.taskItem.value?.deadlineDate.toString())
+                if (viewModel.taskItem.value?.deadlineDate?.isEmpty() == true) {
                     chooseDate(view, dateText)
                 }
 
             } else {
                 dateText.visibility = View.INVISIBLE
-                newTaskViewModel.taskItem.value?.deadlineDate = ""
+                viewModel.taskItem.value?.deadlineDate = ""
             }
         }
 
@@ -136,7 +135,7 @@ class NewTaskFragment : Fragment() {
                 selectedDate.set(year, month, dayOfMonth)
                 val dateFormat = SimpleDateFormat("MMMM", Locale.getDefault())
                 val monthName = dateFormat.format(selectedDate.time).lowercase()
-                newTaskViewModel.setDeadline("$dayOfMonth $monthName $year")
+                viewModel.setDeadline("$dayOfMonth $monthName $year")
                 dateText.visibility = View.VISIBLE
                 dateText.text = "$dayOfMonth $monthName $year"
             },
@@ -150,8 +149,8 @@ class NewTaskFragment : Fragment() {
      */
     private fun saveTask() {
         // Add text from editText to todoItem
-        newTaskViewModel.setText(editText.text.toString())
-        newTaskViewModel.saveTodoItem()
+        viewModel.setText(editText.text.toString())
+        viewModel.saveTodoItem()
         findNavController().navigate(R.id.action_newTaskFragment_to_taskListFragment)
     }
 

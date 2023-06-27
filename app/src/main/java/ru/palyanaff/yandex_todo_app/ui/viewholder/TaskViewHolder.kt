@@ -1,11 +1,6 @@
-package ru.palyanaff.yandex_todo_app.ui.view_holder
+package ru.palyanaff.yandex_todo_app.ui.viewholder
 
-import android.annotation.SuppressLint
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.graphics.Paint
 import android.graphics.PorterDuff
-import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageButton

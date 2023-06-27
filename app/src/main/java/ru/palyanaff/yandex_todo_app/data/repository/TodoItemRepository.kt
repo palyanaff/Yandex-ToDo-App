@@ -1,33 +1,35 @@
 package ru.palyanaff.yandex_todo_app.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import ru.palyanaff.yandex_todo_app.data.datasource.DataSource
 import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
 
-class TodoItemRepository {
-    private val itemList = mutableListOf(
-        TodoItem("0", "sherek", PriorityStatus.LOW, complete = false, null, "now", null),
-        TodoItem("1", "kek", PriorityStatus.LOW, complete = true, "10", "10", null),
-        TodoItem("2", "start", PriorityStatus.NORMAL, complete = false, "now", "now", null),
-        TodoItem("3", "pokushat ooo oooo oo oc ccc ccc ccc ccc hee eee ee eeen mnoga i vkusno",
-            PriorityStatus.HIGH, complete = true, null, "now", null),
-        TodoItem("4", "pospato oo oooo ooo cc cc ccc cc cccc heeeee eeeeen mnoga i oooo oo ooo cc ccc cc cccc cc heee ee eee een mno ga",
-            PriorityStatus.HIGH, complete = false, null, "now", null),
-        /*TodoItem("5", "pospat", PriorityStatus.NORMAL, complete = true, null, "now", null),
-        TodoItem("6", "pospat", PriorityStatus.NORMAL, complete = false, null, "now", null),
-        TodoItem("7", "pospat", PriorityStatus.NORMAL, complete = true, "tomorrow", "now", null),
-        TodoItem("8", "pospat", PriorityStatus.NORMAL, complete = false, null, "now", null),
-        TodoItem("9", "pospat", PriorityStatus.LOW, complete = false, null, "now", null),
-        TodoItem("10", "pospat", PriorityStatus.LOW, complete = false, null, "now", null),
-        TodoItem("11", "pospat", PriorityStatus.LOW, complete = false, null, "now", null),
-        TodoItem("12", "pospat", PriorityStatus.LOW, complete = false, null, "now", null),
-        TodoItem("13", "pospat", PriorityStatus.LOW, complete = false, null, "now", null)*/
-    )
+class TodoItemRepository(private val dataSource: DataSource){
+    private val _itemList = MutableLiveData<MutableList<TodoItem>>()
+    val itemList: LiveData<MutableList<TodoItem>> = _itemList
+    suspend fun updateTodoList() {
+        val loadList = withContext(Dispatchers.IO) {dataSource.loadTodoItems()} as MutableList<TodoItem>
+        _itemList.value = loadList
+    }
 
     fun addItem(item: TodoItem) {
-        itemList.add(item)
+        _itemList.value?.add(item)
     }
-    fun getList(): List<TodoItem> {
-            return itemList
+
+    suspend fun completeItem(id: String) {
+        withContext(Dispatchers.Default) {
+            _itemList.value.orEmpty().map { if (it.id == id) it.complete = true }
+        }
+    }
+
+    suspend fun deleteItem(id: String) {
+        withContext(Dispatchers.Default) {
+            _itemList.postValue(_itemList.value.orEmpty().filter { it.id != id }.toMutableList())
+        }
     }
 
 
