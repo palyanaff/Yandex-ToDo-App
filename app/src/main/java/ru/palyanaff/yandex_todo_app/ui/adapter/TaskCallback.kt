@@ -29,7 +29,7 @@ class TaskCallback(
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
-        when(direction) {
+        when (direction) {
             ItemTouchHelper.LEFT -> {
                 viewModel.deleteItem(position)
                 adapter.notifyItemRemoved(position)
@@ -57,7 +57,12 @@ class TaskCallback(
         // set icon
         val icon = ActivityCompat.getDrawable(itemView.context, R.drawable.delete)
         val top = ((itemView.height / 2) - ((icon!!.intrinsicHeight) / 2)) + itemView.top
-        icon.setBounds(itemView.right - icon.intrinsicWidth - 32, top, itemView.right - 32, top + icon.intrinsicHeight)
+        icon.setBounds(
+            itemView.right - icon.intrinsicWidth - 45,
+            top,
+            itemView.right - 45,
+            top + icon.intrinsicHeight
+        )
         icon.draw(c)
     }
 }
