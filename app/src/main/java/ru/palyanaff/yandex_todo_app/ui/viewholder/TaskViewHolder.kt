@@ -24,8 +24,10 @@ class TaskViewHolder(
 
     private val colorRed = ContextCompat.getColor(itemView.context, R.color.red)
     private val colorGray = ContextCompat.getColor(itemView.context, R.color.gray)
-    private val drawablePriorityHigh = ContextCompat.getDrawable(itemView.context, R.drawable.priority_high)
-    private val drawablePriorityLow = ContextCompat.getDrawable(itemView.context, R.drawable.arrow_downward)
+    private val drawablePriorityHigh =
+        ContextCompat.getDrawable(itemView.context, R.drawable.priority_high)
+    private val drawablePriorityLow =
+        ContextCompat.getDrawable(itemView.context, R.drawable.arrow_downward)
 
     fun onBind(todoItem: TodoItem) {
         drawablePriorityHigh?.setColorFilter(colorRed, PorterDuff.Mode.SRC_IN)
@@ -37,8 +39,8 @@ class TaskViewHolder(
             dataText.visibility = View.VISIBLE
         }
 
-        infoButton.setOnClickListener{ openTask(todoItem) }
-        when (todoItem.complete){
+        infoButton.setOnClickListener { openTask(todoItem) }
+        when (todoItem.complete) {
             true -> {
                 checkBox.isChecked = true
                 // TODO: it works
@@ -49,15 +51,18 @@ class TaskViewHolder(
                 checkBox.isChecked = false
             }
         }
+
+        checkBox.setOnClickListener { checkTask(todoItem) }
+
         when (todoItem.priority) {
             PriorityStatus.HIGH -> {
                 itemText.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    drawablePriorityHigh,null,null,null
+                    drawablePriorityHigh, null, null, null
                 )
             }
             PriorityStatus.LOW -> {
                 itemText.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    drawablePriorityLow,null,null,null
+                    drawablePriorityLow, null, null, null
                 )
             }
             else -> {
@@ -68,7 +73,11 @@ class TaskViewHolder(
         }
     }
 
-    private fun openTask(todoItem: TodoItem){ // TODO: send TodoItem in fragment
+    private fun checkTask(todoItem: TodoItem) {
+        viewModel.setTaskComplete(todoItem)
+    }
+
+    private fun openTask(todoItem: TodoItem) { // TODO: send TodoItem in fragment
         itemView.findNavController().navigate(R.id.action_taskListFragment_to_newTaskFragment)
     }
 }

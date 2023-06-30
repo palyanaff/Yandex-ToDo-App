@@ -26,10 +26,8 @@ class TodoItemRepository(
         _itemList.value?.add(item)
     }
 
-    suspend fun completeItem(id: String) {
-        withContext(Dispatchers.Default) {
-            _itemList.value.orEmpty().map { if (it.id == id) it.complete = true }
-        }
+    fun completeItem(id: String) {
+        _itemList.value.orEmpty().map { if (it.id == id) it.complete = !it.complete }
     }
 
     suspend fun deleteItem(id: String) {

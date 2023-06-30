@@ -25,7 +25,7 @@ class TaskListViewController(
         recyclerView.adapter = adapter
         viewModel.taskList.observe(lifecycleOwner) { newTask ->
             adapter.submitList(newTask)
-            countText.text = "Complete - ${viewModel.getCompleteTasks()}"
+            countText.text = "Complete - ${viewModel.getCompleteTasks()}" //TODO: change to string recurse
         }
         viewModel.getTaskList()
     }
