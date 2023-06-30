@@ -30,10 +30,9 @@ class TodoItemRepository(
         _itemList.value.orEmpty().map { if (it.id == id) it.complete = !it.complete }
     }
 
-    suspend fun deleteItem(id: String) {
-        withContext(Dispatchers.Default) {
-            _itemList.postValue(_itemList.value.orEmpty().filter { it.id != id }.toMutableList())
-        }
+    fun deleteItem(id: Int) {
+        _itemList.value?.removeAt(id)
+        //_itemList.postValue(_itemList.value.orEmpty().filter { it.id != id }.toMutableList())
     }
 
 
