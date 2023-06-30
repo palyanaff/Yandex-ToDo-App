@@ -2,6 +2,7 @@ package ru.palyanaff.yandex_todo_app.ui.viewcontroller
 
 import android.app.Activity
 import android.view.View
+import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,12 +18,14 @@ class TaskListViewController(
     private val viewModel: TaskListViewModel,
 ) {
     private val recyclerView: RecyclerView = rootView.findViewById(R.id.task_list_recycler_view)
+    private val countText: TextView = rootView.findViewById(R.id.complete_text_view)
 
     fun setUpTaskList(){
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
         viewModel.taskList.observe(lifecycleOwner) { newTask ->
             adapter.submitList(newTask)
+            countText.text = "Complete - ${viewModel.getCompleteTasks()}"
         }
         viewModel.getTaskList()
     }

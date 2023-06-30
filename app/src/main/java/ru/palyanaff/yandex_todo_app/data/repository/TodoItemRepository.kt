@@ -19,10 +19,7 @@ class TodoItemRepository(
 
     @MainThread
     suspend fun updateTodoList() {
-        val loadList =
-            withContext(Dispatchers.IO) { dataSource.loadTodoItems() } as MutableList<TodoItem>
-        _itemList.value = loadList
-        Log.i(TAG, _itemList.value.toString())
+        _itemList.value = dataSource.loadTodoItems()
     }
 
     fun addItem(item: TodoItem) {

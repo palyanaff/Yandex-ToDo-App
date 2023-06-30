@@ -10,6 +10,6 @@ data class TodoItem(
     var deadlineDate: String? = "",  //TODO: изменить на Date
     val creationDate: String = "",   //TODO: изменить на Date
     val changeDate: String? = "",    //TODO: изменить на Date
-    )
+)
 
 enum class PriorityStatus { LOW, NORMAL, HIGH }

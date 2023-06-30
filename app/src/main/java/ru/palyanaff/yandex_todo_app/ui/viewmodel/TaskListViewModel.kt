@@ -22,4 +22,6 @@ class TaskListViewModel(
             todoItemRepository.updateTodoList()
         }
     }
+
+    fun getCompleteTasks() = todoItemRepository.itemList.value?.count { it.complete }
 }

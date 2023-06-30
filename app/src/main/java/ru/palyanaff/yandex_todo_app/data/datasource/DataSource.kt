@@ -5,7 +5,7 @@ import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
 
 class DataSource {
-    private val itemList = listOf(
+    private val itemList = mutableListOf(
         TodoItem("0", "sherek", PriorityStatus.LOW, complete = false, null, "now", null),
         TodoItem("1", "kek", PriorityStatus.LOW, complete = true, "10", "10", null),
         TodoItem("2", "start", PriorityStatus.NORMAL, complete = false, "now", "now", null),
@@ -24,7 +24,7 @@ class DataSource {
         TodoItem("13", "pospat", PriorityStatus.LOW, complete = false, null, "now", null)
     )
 
-    fun loadTodoItems(): List<TodoItem> {
+    fun loadTodoItems(): MutableList<TodoItem> {
         return itemList
     }
 }

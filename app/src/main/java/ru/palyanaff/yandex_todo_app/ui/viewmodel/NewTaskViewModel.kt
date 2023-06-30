@@ -40,8 +40,10 @@ class NewTaskViewModel(
 
     fun saveTodoItem() {
         _taskItem.value?.let {
+            //TODO: fix bug
+            Log.i("ADDED", todoItemRepository.itemList.value.toString())
+            Log.i("ADDED", it.toString())
             todoItemRepository.addItem(it)
-            Log.e("$TAG added:", todoItemRepository.itemList.value.toString())
         }
     }
 }

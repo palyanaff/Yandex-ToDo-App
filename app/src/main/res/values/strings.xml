@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Yandex-ToDo-App</string>
     <string name="my_tasks">My tasks</string>
-    <string name="complete_">Complete — 2</string>
+    <string name="complete_">Complete — %1$d</string>
     <string name="save">Save</string>
     <string name="priority">Priority</string>
     <string name="need_to_do_something">Need to do something…</string>
