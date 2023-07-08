@@ -6,21 +6,24 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
 
-
     <color name="separator">#33000000</color>
     <color name="overlay">#0F000000</color>
+
     <color name="primary">#FF000000</color>
-    <color name="back_primary">#FFF7F6F2</color>
     <color name="secondary">#99000000</color>
-    <color name="back_secondary">#FFFFFFFF</color>
-    <color name="elevated">#FFFFFFFF</color>
     <color name="tertiary">#4D000000</color>
     <color name="disable">#26000000</color>
+
+    <color name="back_primary">#FFF7F6F2</color>
+    <color name="back_secondary">#FFFFFFFF</color>
+    <color name="elevated">#FFFFFFFF</color>
+    
+    <color name="gray_light">#FFD1D1D6</color>
+
     <color name="red">#FFFF3B30</color>
     <color name="green">#FF34C759</color>
     <color name="blue">#FF007AFF</color>
     <color name="gray">#FF8E8E93</color>
-    <color name="gray_light">#FFD1D1D6</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="checkbox_button_tint">

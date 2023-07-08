@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="separator">#33FFFFFF</color>
+    <color name="overlay">#52000000</color>
+
+    <color name="primary">#FFFFFFFF</color>
+    <color name="secondary">#99FFFFFF</color>
+    <color name="tertiary">#66FFFFFF</color>
+    <color name="disable">#26FFFFFF</color>
+
+    <color name="back_primary">#FF161618</color>
+    <color name="back_secondary">#FF252528</color>
+    <color name="elevated">#FF3C3C3F</color>
+
+    <color name="gray_light">#FF48484A</color>
+</resources>
