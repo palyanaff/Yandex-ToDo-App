@@ -7,8 +7,7 @@ import java.util.Date
 
 @Entity(tableName = "todo_items")
 data class TodoItem(
-    @PrimaryKey(autoGenerate = true)
-    val id: String,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     var text: String = "",
     var priority: PriorityStatus = PriorityStatus.NORMAL,
     var complete: Boolean = false,

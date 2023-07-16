@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import ru.palyanaff.yandex_todo_app.data.datasource.DataSource
 import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
@@ -17,7 +19,7 @@ class NewTaskViewModel(
     val taskItem: LiveData<TodoItem> = _taskItem
 
     init {
-        _taskItem.value = TodoItem()
+        _taskItem.value = TodoItem(-1)
         Log.e(TAG, _taskItem.value.toString())
     }
 
@@ -38,7 +40,7 @@ class NewTaskViewModel(
 
     }
 
-    fun saveTodoItem() {
+    fun saveTodoItem() = viewModelScope.launch {
         _taskItem.value?.let {
             //TODO: fix bug
             Log.i("ADDED", todoItemRepository.itemList.value.toString())

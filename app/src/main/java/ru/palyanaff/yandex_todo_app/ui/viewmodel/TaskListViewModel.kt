@@ -25,8 +25,9 @@ class TaskListViewModel(
 
     fun getCompleteTasks() = todoItemRepository.itemList.value?.count { it.complete }
 
-    fun deleteItem(id: Int){
-        todoItemRepository.deleteItem(id)
+    fun deleteItem(id: Int)= viewModelScope.launch {
+        val item = todoItemRepository.findItem(id)
+        todoItemRepository.deleteItem(item)
     }
     fun setTaskComplete(todoItem: TodoItem) {
         // TODO: refresh view layout (complete textView)

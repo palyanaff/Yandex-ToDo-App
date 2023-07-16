@@ -5,10 +5,10 @@ import androidx.room.*
 @Dao
 interface TodoItemDao {
     @Query ("SELECT * FROM todo_items")
-    fun getAll(): List<TodoItem>
+    suspend fun getAll(): List<TodoItem>
 
     @Query("SELECT * FROM todo_items WHERE id == :itemId")
-    fun findById(itemId: String): TodoItem
+    fun findById(itemId: Int): TodoItem
 
     @Insert fun addItem(item: TodoItem)
     @Update fun editItem(item: TodoItem)

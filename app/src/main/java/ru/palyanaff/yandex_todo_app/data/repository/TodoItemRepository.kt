@@ -1,41 +1,40 @@
 package ru.palyanaff.yandex_todo_app.data.repository
 
-import android.util.Log
-import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.room.Room
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import ru.palyanaff.yandex_todo_app.data.database.TodoItemDatabase
+import kotlinx.coroutines.flow.Flow
 import ru.palyanaff.yandex_todo_app.data.datasource.DataSource
-import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
+import ru.palyanaff.yandex_todo_app.data.model.TodoItemDao
 
 class TodoItemRepository(
-    private val dataSource: DataSource
+    private val todoItemDao: TodoItemDao,
+    dataSource: DataSource,
 ) {
     private val TAG = "TodoItemRepository"
-    private val _itemList = MutableLiveData<MutableList<TodoItem>>()
-    val itemList: LiveData<MutableList<TodoItem>> = _itemList
+    private val _itemList = MutableLiveData<List<TodoItem>>()
+    val itemList: LiveData<List<TodoItem>> = _itemList
 
-    @MainThread
+    // TODO: add initialization of TodoItemDatabase with context(?)
     suspend fun updateTodoList() {
-        _itemList.value = dataSource.loadTodoItems()
+        _itemList.value = todoItemDao.getAll()
     }
 
-    fun addItem(item: TodoItem) {
-        _itemList.value?.add(item)
+    suspend fun addItem(item: TodoItem) {
+        todoItemDao.addItem(item)
+        updateTodoList()
     }
 
-    fun completeItem(id: String) {
+    fun completeItem(id: Int) {
         _itemList.value.orEmpty().map { if (it.id == id) it.complete = !it.complete }
     }
 
-    fun deleteItem(id: Int) {
-        _itemList.value?.removeAt(id)
+    suspend fun deleteItem(item: TodoItem) {
+        todoItemDao.deleteItem(item)
+        updateTodoList()
         //_itemList.postValue(_itemList.value.orEmpty().filter { it.id != id }.toMutableList())
     }
 
+    fun findItem(id: Int): TodoItem = todoItemDao.findById(id)
 
 }

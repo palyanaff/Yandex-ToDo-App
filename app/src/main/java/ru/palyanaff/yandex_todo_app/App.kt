@@ -6,7 +6,7 @@ import dagger.Component
 import ru.palyanaff.yandex_todo_app.ioc.ApplicationComponent
 
 class App : Application() {
-    val applicationComponent by lazy { ApplicationComponent() }
+    val applicationComponent by lazy { ApplicationComponent(this) }
 
     companion object {
         fun get(context: Context): App = context.applicationContext as App
