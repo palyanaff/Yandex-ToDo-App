@@ -1,6 +1,8 @@
 package ru.palyanaff.yandex_todo_app.data.datasource
 
+import androidx.room.Room
 import kotlinx.coroutines.delay
+import ru.palyanaff.yandex_todo_app.data.database.TodoItemDatabase
 import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
 
@@ -23,6 +25,8 @@ class DataSource {
         TodoItem("12", "pospat", PriorityStatus.LOW, complete = false, null, "now", null),
         TodoItem("13", "pospat", PriorityStatus.LOW, complete = false, null, "now", null)
     )
+
+    // TODO: add initialization of TodoItemDatabase with context(?)
 
     fun loadTodoItems(): MutableList<TodoItem> {
         return itemList

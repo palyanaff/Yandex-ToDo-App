@@ -2,6 +2,7 @@ package ru.palyanaff.yandex_todo_app
 
 import android.app.Application
 import android.content.Context
+import dagger.Component
 import ru.palyanaff.yandex_todo_app.ioc.ApplicationComponent
 
 class App : Application() {
