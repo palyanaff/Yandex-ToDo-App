@@ -9,7 +9,7 @@ import ru.palyanaff.yandex_todo_app.data.model.TodoItemDao
 
 class TodoItemRepository(
     private val todoItemDao: TodoItemDao,
-    dataSource: DataSource,
+    private val dataSource: DataSource,
 ) {
     private val TAG = "TodoItemRepository"
     private val _itemList = MutableLiveData<List<TodoItem>>()
@@ -35,6 +35,6 @@ class TodoItemRepository(
         //_itemList.postValue(_itemList.value.orEmpty().filter { it.id != id }.toMutableList())
     }
 
-    fun findItem(id: Int): TodoItem = todoItemDao.findById(id)
+    suspend fun findItem(id: Int): TodoItem = todoItemDao.findById(id)
 
 }

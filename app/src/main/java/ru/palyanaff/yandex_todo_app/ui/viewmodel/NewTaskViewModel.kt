@@ -15,11 +15,12 @@ class NewTaskViewModel(
     private val todoItemRepository: TodoItemRepository
 ) : ViewModel() {
     private val TAG = "NewTaskViewModel"
+
     private var _taskItem = MutableLiveData<TodoItem>()
     val taskItem: LiveData<TodoItem> = _taskItem
 
     init {
-        _taskItem.value = TodoItem(-1)
+        _taskItem.value = TodoItem(0)
         Log.e(TAG, _taskItem.value.toString())
     }
 
