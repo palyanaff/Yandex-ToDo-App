@@ -9,12 +9,17 @@ import ru.palyanaff.yandex_todo_app.data.repository.TodoItemRepository
 class ApplicationComponent(
     context: Context
 ) {
-    private val dataSource = DataSource()
+    private val dataSource by lazy { DataSource() }
     private val database by lazy { TodoItemDatabase.getDatabase(context = context) }
-    private val todoItemRepository by lazy { TodoItemRepository(database.todoItemDao(), dataSource) }
+    private val todoItemRepository by lazy {
+        TodoItemRepository(
+            todoItemDao = database.todoItemDao(),
+            dataSource = dataSource,
+        )
+    }
 
-    val taskListViewModelFactory = TaskListViewModelFactory(todoItemRepository)
-    val newTaskViewModelFactory = NewTaskViewModelFactory(todoItemRepository)
+    val viewModelFactory = ViewModelFactory(todoItemRepository)
+
     init {
         Log.i("ApplicationComponent", todoItemRepository.itemList.value.toString())
     }

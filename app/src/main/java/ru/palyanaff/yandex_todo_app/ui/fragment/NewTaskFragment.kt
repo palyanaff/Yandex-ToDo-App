@@ -30,7 +30,7 @@ class NewTaskFragment : Fragment() {
     private val applicationComponent
         get() = App.get(requireContext()).applicationComponent
 
-    private val viewModel: NewTaskViewModel by viewModels { applicationComponent.newTaskViewModelFactory }
+    private val viewModel: NewTaskViewModel by viewModels { applicationComponent.viewModelFactory }
 
     private lateinit var editText: EditText //TODO: reform edit text
     override fun onCreate(savedInstanceState: Bundle?) {

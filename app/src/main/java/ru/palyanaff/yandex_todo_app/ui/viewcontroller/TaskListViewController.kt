@@ -20,7 +20,7 @@ class TaskListViewController(
     private val viewModel: TaskListViewModel,
 ) {
     private val recyclerView: RecyclerView = rootView.findViewById(R.id.task_list_recycler_view)
-    private val callback = TaskCallback(viewModel, adapter, 0, ItemTouchHelper.LEFT)
+    private val callback = TaskCallback(viewModel, adapter, 0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
     private val itemTouchHelper = ItemTouchHelper(callback)
     private val countText: TextView = rootView.findViewById(R.id.complete_text_view)
 

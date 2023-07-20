@@ -6,11 +6,14 @@ import ru.palyanaff.yandex_todo_app.data.repository.TodoItemRepository
 import ru.palyanaff.yandex_todo_app.ui.viewmodel.NewTaskViewModel
 import ru.palyanaff.yandex_todo_app.ui.viewmodel.TaskListViewModel
 
-class NewTaskViewModelFactory(
+class ViewModelFactory(
     private val todoItemRepository: TodoItemRepository
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T = when (modelClass) {
+        TaskListViewModel::class.java -> TaskListViewModel(
+            todoItemRepository
+        )
         NewTaskViewModel::class.java -> NewTaskViewModel(
             todoItemRepository
         )

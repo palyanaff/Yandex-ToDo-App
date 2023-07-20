@@ -29,6 +29,12 @@ class TodoItemRepository(
         _itemList.value.orEmpty().map { if (it.id == id) it.complete = !it.complete }
     }
 
+    suspend fun deleteById(id: Int) {
+        todoItemDao.deleteById(id)
+        _itemList.value?.filter { it.id == id }
+        updateTodoList()
+    }
+
     suspend fun deleteItem(item: TodoItem) {
         todoItemDao.deleteItem(item)
         updateTodoList()

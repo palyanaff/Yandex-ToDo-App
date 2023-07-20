@@ -34,6 +34,10 @@ class TaskCallback(
                 viewModel.deleteItem(position)
                 adapter.notifyItemRemoved(position)
             }
+            ItemTouchHelper.RIGHT -> {
+                //viewModel.setTaskComplete(position)
+                adapter.notifyItemRemoved(position)
+            }
         }
     }
 
@@ -51,7 +55,7 @@ class TaskCallback(
         val itemView: View = viewHolder.itemView
         val bg = ColorDrawable()
         bg.color = Color.RED
-        bg.setBounds(itemView.left, itemView.top, itemView.right, itemView.bottom)
+        bg.setBounds(itemView.right + dX.toInt(), itemView.top, itemView.right, itemView.bottom)
         bg.draw(c)
 
         // set icon

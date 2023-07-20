@@ -1,7 +1,6 @@
 package ru.palyanaff.yandex_todo_app.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -35,7 +34,7 @@ class TaskListFragment : Fragment() {
     private var fragmentViewComponent: TaskListFragmentViewComponent? = null
 
     // Initialize ViewModel
-    private val viewModel: TaskListViewModel by viewModels { applicationComponent.taskListViewModelFactory }
+    private val viewModel: TaskListViewModel by viewModels { applicationComponent.viewModelFactory }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentComponent = TaskListFragmentComponent(
