@@ -2,10 +2,9 @@ package ru.palyanaff.yandex_todo_app.data.datasource
 
 import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
+import javax.inject.Inject
 
-class DataSource(
-
-) {
+class DataSource @Inject constructor() {
     private val itemList = mutableListOf(
         TodoItem(0,"sherek", PriorityStatus.LOW, complete = false, null, "now", null),
         TodoItem(1,"kek", PriorityStatus.LOW, complete = true, "10", "10", null),

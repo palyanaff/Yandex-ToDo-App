@@ -6,8 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import ru.palyanaff.yandex_todo_app.data.datasource.DataSource
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
 import ru.palyanaff.yandex_todo_app.data.model.TodoItemDao
+import javax.inject.Inject
 
-class TodoItemRepository(
+class TodoItemRepository @Inject constructor(
     private val todoItemDao: TodoItemDao,
     private val dataSource: DataSource,
 ) {
