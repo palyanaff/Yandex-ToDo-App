@@ -11,8 +11,9 @@ import ru.palyanaff.yandex_todo_app.R
 import ru.palyanaff.yandex_todo_app.ui.adapter.TaskAdapter
 import ru.palyanaff.yandex_todo_app.ui.adapter.TaskCallback
 import ru.palyanaff.yandex_todo_app.ui.viewmodel.TaskListViewModel
+import javax.inject.Inject
 
-class TaskListViewController(
+class TaskListViewController (
     private val activity: Activity,
     rootView: View,
     private val adapter: TaskAdapter,
@@ -28,8 +29,8 @@ class TaskListViewController(
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
         itemTouchHelper.attachToRecyclerView(recyclerView)
-        viewModel.taskList.observe(lifecycleOwner) { newTask ->
-            adapter.submitList(newTask)
+        viewModel.taskList.observe(lifecycleOwner) { tasks ->
+            adapter.submitList(tasks)
             countText.text =
                 "Complete - ${viewModel.getCompleteTasks()}" //TODO: change to string recurse
         }

@@ -2,21 +2,23 @@ package ru.palyanaff.yandex_todo_app.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.flow.Flow
+import ru.palyanaff.yandex_todo_app.data.database.TodoItemDatabase
 import ru.palyanaff.yandex_todo_app.data.datasource.DataSource
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
 import ru.palyanaff.yandex_todo_app.data.model.TodoItemDao
+import ru.palyanaff.yandex_todo_app.data.model.TodoItemDao_Impl
 import javax.inject.Inject
 
+//@ApplicationScope
 class TodoItemRepository @Inject constructor(
-    private val todoItemDao: TodoItemDao,
-    private val dataSource: DataSource,
+    private val todoItemDatabase: dagger.Lazy<TodoItemDatabase>,
+    private val dataSource: dagger.Lazy<DataSource>,
 ) {
     private val TAG = "TodoItemRepository"
     private val _itemList = MutableLiveData<List<TodoItem>>()
+    private val todoItemDao = todoItemDatabase.get().todoItemDao()
     val itemList: LiveData<List<TodoItem>> = _itemList
 
-    // TODO: add initialization of TodoItemDatabase with context(?)
     suspend fun updateTodoList() {
         _itemList.value = todoItemDao.getAll()
     }

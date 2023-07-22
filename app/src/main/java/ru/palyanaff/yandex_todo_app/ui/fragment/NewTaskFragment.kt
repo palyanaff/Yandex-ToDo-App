@@ -13,11 +13,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.palyanaff.yandex_todo_app.App
 import ru.palyanaff.yandex_todo_app.R
+import ru.palyanaff.yandex_todo_app.data.database.TodoItemDatabase
+import ru.palyanaff.yandex_todo_app.data.datasource.DataSource
 import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
+import ru.palyanaff.yandex_todo_app.data.repository.TodoItemRepository
 import ru.palyanaff.yandex_todo_app.ui.viewmodel.NewTaskViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
@@ -27,10 +31,11 @@ import java.util.*
 class NewTaskFragment : Fragment() {
     private val TAG = "NewTaskFragment"
 
-    private val applicationComponent
-        get() = App.get(requireContext()).applicationComponent
+    /*private val applicationComponent
+        get() = App.get(requireContext()).applicationComponent*/
 
-    private val viewModel: NewTaskViewModel by viewModels { applicationComponent.viewModelFactory }
+    //private val viewModel: NewTaskViewModel by viewModels { applicationComponent.viewModelFactory }
+    @Inject lateinit var viewModel: NewTaskViewModel
 
     private lateinit var editText: EditText //TODO: reform edit text
     override fun onCreate(savedInstanceState: Bundle?) {

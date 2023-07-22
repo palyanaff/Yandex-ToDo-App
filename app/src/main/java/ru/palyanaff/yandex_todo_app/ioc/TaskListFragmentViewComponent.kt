@@ -10,11 +10,4 @@ class TaskListFragmentViewComponent(
     lifecycleOwner: LifecycleOwner,
 ) {
 
-    val taskListViewController = TaskListViewController(
-        fragmentComponent.fragment.requireActivity(),
-        root,
-        fragmentComponent.adapter,
-        lifecycleOwner,
-        fragmentComponent.viewModel,
-    )
 }

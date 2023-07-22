@@ -21,7 +21,6 @@ class NewTaskViewModel(
 
     init {
         _taskItem.value = TodoItem(0)
-        Log.e(TAG, _taskItem.value.toString())
     }
 
     fun setText(text: String?) {
@@ -43,9 +42,6 @@ class NewTaskViewModel(
 
     fun saveTodoItem() = viewModelScope.launch {
         _taskItem.value?.let {
-            //TODO: fix bug
-            Log.i("ADDED", todoItemRepository.itemList.value.toString())
-            Log.i("ADDED", it.toString())
             todoItemRepository.addItem(it)
         }
     }

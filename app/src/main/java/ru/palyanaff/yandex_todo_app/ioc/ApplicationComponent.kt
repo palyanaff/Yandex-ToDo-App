@@ -8,12 +8,12 @@ import ru.palyanaff.yandex_todo_app.ApplicationScope
 import ru.palyanaff.yandex_todo_app.data.database.TodoItemDatabase
 import ru.palyanaff.yandex_todo_app.data.datasource.DataSource
 import ru.palyanaff.yandex_todo_app.data.repository.TodoItemRepository
+import ru.palyanaff.yandex_todo_app.ui.fragment.NewTaskFragment
+import ru.palyanaff.yandex_todo_app.ui.fragment.TaskListFragment
 
 @ApplicationScope
-@Component
-class ApplicationComponent(
-    context: Context
-) {
+@Component(modules = [TodoItemDatabase::class])
+interface ApplicationComponent {
     @Component.Factory
     interface Factory {
         fun create(
@@ -21,18 +21,13 @@ class ApplicationComponent(
         ): ApplicationComponent
     }
 
-    private val dataSource by lazy { DataSource() }
-    private val database by lazy { TodoItemDatabase.getDatabase(context = context) }
-    private val todoItemRepository by lazy {
-        TodoItemRepository(
-            todoItemDao = database.todoItemDao(),
-            dataSource = dataSource,
-        )
-    }
+    fun inject(newTaskFragment: NewTaskFragment)
+    fun inject(taskListFragment: TaskListFragment)
 
-    val viewModelFactory = ViewModelFactory(todoItemRepository)
+    fun getTodoItemRepository(): TodoItemRepository
 
-    init {
-        Log.i("ApplicationComponent", todoItemRepository.itemList.value.toString())
-    }
+    fun getDataSource(): DataSource
+
+    fun viewModelFactory(): ViewModelFactory
+
 }

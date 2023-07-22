@@ -8,15 +8,11 @@ import dagger.Binds
 import dagger.BindsInstance
 import dagger.Module
 import dagger.Provides
+import ru.palyanaff.yandex_todo_app.ApplicationScope
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
 import ru.palyanaff.yandex_todo_app.data.model.TodoItemDao
 
 @Module
-interface DatabaseModule {
-    @Binds
-    fun todoItemDao(impl: TodoItemDatabase_Impl): TodoItemDao
-}
-
 @Database(entities = [TodoItem::class], version = 1)
 abstract class TodoItemDatabase : RoomDatabase() {
 
@@ -28,6 +24,7 @@ abstract class TodoItemDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: TodoItemDatabase? = null
 
+        @Provides
         fun getDatabase(context: Context): TodoItemDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database

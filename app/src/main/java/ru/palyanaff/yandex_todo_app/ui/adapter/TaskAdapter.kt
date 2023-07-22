@@ -8,12 +8,13 @@ import ru.palyanaff.yandex_todo_app.R
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
 import ru.palyanaff.yandex_todo_app.ui.viewholder.TaskViewHolder
 import ru.palyanaff.yandex_todo_app.ui.viewmodel.TaskListViewModel
+import javax.inject.Inject
 
-class TaskAdapter(
-    private val viewModel: TaskListViewModel,
+class TaskAdapter @Inject constructor(
     taskDiffUtil: TaskDiffUtil
 ) : ListAdapter<TodoItem, TaskViewHolder>(taskDiffUtil) {
 
+    @Inject lateinit var viewModel: TaskListViewModel
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
             R.layout.todo_item,
