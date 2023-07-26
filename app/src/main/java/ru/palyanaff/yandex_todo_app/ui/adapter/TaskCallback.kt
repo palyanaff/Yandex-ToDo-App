@@ -35,7 +35,7 @@ class TaskCallback(
                 adapter.notifyItemRemoved(position)
             }
             ItemTouchHelper.RIGHT -> {
-                //viewModel.setTaskComplete(position)
+                viewModel.setTaskComplete(position)
                 adapter.notifyItemRemoved(position)
             }
         }

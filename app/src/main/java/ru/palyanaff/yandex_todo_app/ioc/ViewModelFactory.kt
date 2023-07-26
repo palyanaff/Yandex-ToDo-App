@@ -1,5 +1,6 @@
 package ru.palyanaff.yandex_todo_app.ioc
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.palyanaff.yandex_todo_app.ApplicationScope
@@ -10,7 +11,7 @@ import javax.inject.Inject
 
 //@ApplicationScope
 class ViewModelFactory @Inject constructor(
-    private val todoItemRepository: TodoItemRepository
+    private val todoItemRepository: TodoItemRepository,
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T = when (modelClass) {

@@ -22,6 +22,7 @@ annotation class FragmentScope
 interface TaskListFragmentComponent {
 
     fun inject(fragment: TaskListFragment)
-    fun inject(fragment: NewTaskFragment)
     fun getAdapter(): TaskAdapter
+
+    fun viewModelFactory(): ViewModelFactory
 }

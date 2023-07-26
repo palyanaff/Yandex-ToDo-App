@@ -34,6 +34,5 @@ class TaskListViewController (
             countText.text =
                 "Complete - ${viewModel.getCompleteTasks()}" //TODO: change to string recurse
         }
-        viewModel.getTaskList()
     }
 }

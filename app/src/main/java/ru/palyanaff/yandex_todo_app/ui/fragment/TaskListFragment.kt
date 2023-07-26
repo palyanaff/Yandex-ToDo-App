@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,15 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.palyanaff.yandex_todo_app.App
 import ru.palyanaff.yandex_todo_app.R
-import ru.palyanaff.yandex_todo_app.ioc.ApplicationComponent
-import ru.palyanaff.yandex_todo_app.ioc.DaggerApplicationComponent
 import ru.palyanaff.yandex_todo_app.ioc.TaskListFragmentComponent
-import ru.palyanaff.yandex_todo_app.ioc.TaskListFragmentViewComponent
 import ru.palyanaff.yandex_todo_app.ui.adapter.TaskAdapter
 import ru.palyanaff.yandex_todo_app.ui.adapter.TaskCallback
 import ru.palyanaff.yandex_todo_app.ui.viewmodel.NewTaskViewModel
 import ru.palyanaff.yandex_todo_app.ui.viewmodel.TaskListViewModel
-import javax.inject.Inject
 
 
 /**
@@ -37,17 +32,16 @@ class TaskListFragment : Fragment() {
     private lateinit var callback: TaskCallback
     private lateinit var itemTouchHelper: ItemTouchHelper
     private lateinit var countText: TextView
-    private lateinit var fragmentComponent: TaskListFragmentComponent
+    private lateinit var component: TaskListFragmentComponent
     private lateinit var adapter: TaskAdapter
 
-    @Inject
-    lateinit var viewModel: TaskListViewModel
+    private val viewModel: TaskListViewModel by viewModels { component.viewModelFactory() }
     override fun onCreate(savedInstanceState: Bundle?) {
-        fragmentComponent = (requireActivity().applicationContext as App)
+        component = (requireActivity().applicationContext as App)
             .applicationComponent
             .taskListFragmentComponent()
 
-        fragmentComponent.inject(this)
+        component.inject(this)
         super.onCreate(savedInstanceState)
 
     }
@@ -61,12 +55,13 @@ class TaskListFragment : Fragment() {
         recyclerView = view.findViewById(R.id.task_list_recycler_view)
         callback = TaskCallback(
             viewModel,
-            fragmentComponent.getAdapter(),
+            component.getAdapter(),
             0,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         )
         itemTouchHelper = ItemTouchHelper(callback)
         countText = view.findViewById(R.id.complete_text_view)
+        adapter = component.getAdapter()
         setUpTaskList()
 
         val fab = view.findViewById<FloatingActionButton>(R.id.add_task_button)
@@ -82,14 +77,15 @@ class TaskListFragment : Fragment() {
 
     private fun setUpTaskList() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = fragmentComponent.getAdapter()
+        recyclerView.adapter = adapter
         itemTouchHelper.attachToRecyclerView(recyclerView)
         viewModel.taskList.observe(requireActivity()) { tasks ->
-            fragmentComponent.getAdapter().submitList(tasks)
-            countText.text =
-                "Complete - ${viewModel.getCompleteTasks()}" //TODO: change to string recurse
+            tasks.let {
+                adapter.submitList(tasks)
+                countText.text =
+                    "Complete - ${viewModel.getCompleteTasks()}" //TODO: change to string recurse
+            }
         }
-        viewModel.getTaskList()
     }
 
     override fun onDestroyView() {

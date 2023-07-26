@@ -21,11 +21,10 @@ interface ApplicationComponent {
     }
 
     fun taskListFragmentComponent(): TaskListFragmentComponent
+    fun newTaskFragmentComponent(): NewTaskFragmentComponent
 
     fun getTodoItemRepository(): TodoItemRepository
 
     fun getDataSource(): DataSource
-
-    fun viewModelFactory(): ViewModelFactory
 
 }

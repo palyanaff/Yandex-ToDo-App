@@ -18,6 +18,8 @@ import ru.palyanaff.yandex_todo_app.data.datasource.DataSource
 import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
 import ru.palyanaff.yandex_todo_app.data.repository.TodoItemRepository
+import ru.palyanaff.yandex_todo_app.ioc.ApplicationComponent
+import ru.palyanaff.yandex_todo_app.ioc.NewTaskFragmentComponent
 import ru.palyanaff.yandex_todo_app.ui.viewmodel.NewTaskViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,19 +33,19 @@ import javax.inject.Inject
 class NewTaskFragment : Fragment() {
     private val TAG = "NewTaskFragment"
 
-    /*private val applicationComponent
-        get() = App.get(requireContext()).applicationComponent*/
+    private lateinit var component: NewTaskFragmentComponent
 
-    //private val viewModel: NewTaskViewModel by viewModels { applicationComponent.viewModelFactory }
-    @Inject
-    lateinit var viewModel: NewTaskViewModel
+    private val viewModel: NewTaskViewModel by viewModels { component.viewModelFactory() }
+   /* @Inject
+    lateinit var viewModel: NewTaskViewModel*/
 
     private lateinit var editText: EditText //TODO: reform edit text
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
+        component = (requireActivity().applicationContext as App)
+            .applicationComponent
+            .newTaskFragmentComponent()
+        component.inject(this)
     }
 
     override fun onCreateView(
@@ -131,6 +133,7 @@ class NewTaskFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        viewModel.setText(editText.text.toString().trim())
 
     }
 

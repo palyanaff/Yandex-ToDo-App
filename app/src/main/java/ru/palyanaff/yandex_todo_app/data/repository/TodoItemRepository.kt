@@ -1,7 +1,9 @@
 package ru.palyanaff.yandex_todo_app.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import ru.palyanaff.yandex_todo_app.ApplicationScope
 import ru.palyanaff.yandex_todo_app.data.database.TodoItemDatabase
 import ru.palyanaff.yandex_todo_app.data.datasource.DataSource
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
@@ -9,7 +11,7 @@ import ru.palyanaff.yandex_todo_app.data.model.TodoItemDao
 import ru.palyanaff.yandex_todo_app.data.model.TodoItemDao_Impl
 import javax.inject.Inject
 
-//@ApplicationScope
+@ApplicationScope
 class TodoItemRepository @Inject constructor(
     private val todoItemDao: TodoItemDao,
     private val dataSource: dagger.Lazy<DataSource>,
@@ -27,8 +29,9 @@ class TodoItemRepository @Inject constructor(
         updateTodoList()
     }
 
-    fun completeItem(id: Int) {
-        _itemList.value.orEmpty().map { if (it.id == id) it.complete = !it.complete }
+    suspend fun completeItem(item: TodoItem) {
+        item.complete = !item.complete
+        todoItemDao.editItem(item)
     }
 
     suspend fun deleteById(id: Int) {
@@ -40,6 +43,7 @@ class TodoItemRepository @Inject constructor(
     suspend fun deleteItem(item: TodoItem) {
         todoItemDao.deleteItem(item)
         updateTodoList()
+        Log.e("Repository", _itemList.value.toString())
         //_itemList.postValue(_itemList.value.orEmpty().filter { it.id != id }.toMutableList())
     }
 
