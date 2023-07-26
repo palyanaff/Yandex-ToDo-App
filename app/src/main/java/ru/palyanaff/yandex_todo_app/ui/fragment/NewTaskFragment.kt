@@ -35,7 +35,8 @@ class NewTaskFragment : Fragment() {
         get() = App.get(requireContext()).applicationComponent*/
 
     //private val viewModel: NewTaskViewModel by viewModels { applicationComponent.viewModelFactory }
-    @Inject lateinit var viewModel: NewTaskViewModel
+    @Inject
+    lateinit var viewModel: NewTaskViewModel
 
     private lateinit var editText: EditText //TODO: reform edit text
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +67,11 @@ class NewTaskFragment : Fragment() {
         viewModel.taskItem.observe(requireActivity()) { newItem ->
             newItem.let {
                 dateText.text = newItem.deadlineDate
-                priorityText.text = newItem.priority.toString()
+                when (newItem.priority) {
+                    PriorityStatus.HIGH -> priorityText.text = getString(R.string.high)
+                    PriorityStatus.NORMAL -> priorityText.text = getString(R.string.normal)
+                    PriorityStatus.LOW -> priorityText.text = getString(R.string.low)
+                }
                 editText.setText(newItem.text)
             }
         }
@@ -80,17 +85,17 @@ class NewTaskFragment : Fragment() {
             when (menuItem.itemId) {
                 R.id.priority_high -> {
                     viewModel.setPriority(PriorityStatus.HIGH)
-                    priorityText.text = getString(R.string.high)
+                    //priorityText.text = getString(R.string.high)
                     true
                 }
                 R.id.priority_normal -> {
                     viewModel.setPriority(PriorityStatus.NORMAL)
-                    priorityText.text = getString(R.string.normal)
+                    //priorityText.text = getString(R.string.normal)
                     true
                 }
                 R.id.priority_low -> {
                     viewModel.setPriority(PriorityStatus.LOW)
-                    priorityText.text = getString(R.string.low)
+                    //priorityText.text = getString(R.string.low)
                     true
                 }
                 else -> false

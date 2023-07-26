@@ -11,8 +11,15 @@ import dagger.Provides
 import ru.palyanaff.yandex_todo_app.ApplicationScope
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
 import ru.palyanaff.yandex_todo_app.data.model.TodoItemDao
+import ru.palyanaff.yandex_todo_app.data.model.TodoItemDao_Impl
 
 @Module
+class DatabaseModule {
+    @Provides
+    fun provideDb(context: Context): TodoItemDatabase = TodoItemDatabase.getDatabase(context)
+    @Provides
+    fun provideDao(db: TodoItemDatabase): TodoItemDao = db.todoItemDao()
+}
 @Database(entities = [TodoItem::class], version = 1)
 abstract class TodoItemDatabase : RoomDatabase() {
 
@@ -24,7 +31,6 @@ abstract class TodoItemDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: TodoItemDatabase? = null
 
-        @Provides
         fun getDatabase(context: Context): TodoItemDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database

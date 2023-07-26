@@ -10,8 +10,9 @@ import ru.palyanaff.yandex_todo_app.data.datasource.DataSource
 import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
 import ru.palyanaff.yandex_todo_app.data.repository.TodoItemRepository
+import javax.inject.Inject
 
-class NewTaskViewModel(
+class NewTaskViewModel @Inject constructor(
     private val todoItemRepository: TodoItemRepository
 ) : ViewModel() {
     private val TAG = "NewTaskViewModel"

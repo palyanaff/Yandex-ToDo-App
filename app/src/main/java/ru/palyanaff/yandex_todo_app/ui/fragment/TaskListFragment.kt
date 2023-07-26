@@ -17,7 +17,6 @@ import ru.palyanaff.yandex_todo_app.App
 import ru.palyanaff.yandex_todo_app.R
 import ru.palyanaff.yandex_todo_app.ioc.ApplicationComponent
 import ru.palyanaff.yandex_todo_app.ioc.DaggerApplicationComponent
-import ru.palyanaff.yandex_todo_app.ioc.DaggerTaskListFragmentComponent
 import ru.palyanaff.yandex_todo_app.ioc.TaskListFragmentComponent
 import ru.palyanaff.yandex_todo_app.ioc.TaskListFragmentViewComponent
 import ru.palyanaff.yandex_todo_app.ui.adapter.TaskAdapter
@@ -39,12 +38,15 @@ class TaskListFragment : Fragment() {
     private lateinit var itemTouchHelper: ItemTouchHelper
     private lateinit var countText: TextView
     private lateinit var fragmentComponent: TaskListFragmentComponent
+    private lateinit var adapter: TaskAdapter
 
     @Inject
     lateinit var viewModel: TaskListViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
-        fragmentComponent =
-            DaggerTaskListFragmentComponent.factory().create(this)
+        fragmentComponent = (requireActivity().applicationContext as App)
+            .applicationComponent
+            .taskListFragmentComponent()
+
         fragmentComponent.inject(this)
         super.onCreate(savedInstanceState)
 
@@ -57,7 +59,12 @@ class TaskListFragment : Fragment() {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_task_list, container, false)
         recyclerView = view.findViewById(R.id.task_list_recycler_view)
-        callback = TaskCallback(viewModel, fragmentComponent.getAdapter(), 0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+        callback = TaskCallback(
+            viewModel,
+            fragmentComponent.getAdapter(),
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        )
         itemTouchHelper = ItemTouchHelper(callback)
         countText = view.findViewById(R.id.complete_text_view)
         setUpTaskList()
@@ -73,13 +80,12 @@ class TaskListFragment : Fragment() {
         findNavController().navigate(R.id.action_taskListFragment_to_newTaskFragment)
     }
 
-    fun setUpTaskList() {
-        // TODO: fix now
+    private fun setUpTaskList() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = adapter
+        recyclerView.adapter = fragmentComponent.getAdapter()
         itemTouchHelper.attachToRecyclerView(recyclerView)
-        viewModel.taskList.observe(lifecycleOwner) { tasks ->
-            adapter.submitList(tasks)
+        viewModel.taskList.observe(requireActivity()) { tasks ->
+            fragmentComponent.getAdapter().submitList(tasks)
             countText.text =
                 "Complete - ${viewModel.getCompleteTasks()}" //TODO: change to string recurse
         }
@@ -88,7 +94,7 @@ class TaskListFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        fragmentViewComponent = null
+        //fragmentViewComponent = null
     }
 
 }

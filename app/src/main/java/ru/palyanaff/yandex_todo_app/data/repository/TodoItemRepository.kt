@@ -11,12 +11,11 @@ import javax.inject.Inject
 
 //@ApplicationScope
 class TodoItemRepository @Inject constructor(
-    private val todoItemDatabase: dagger.Lazy<TodoItemDatabase>,
+    private val todoItemDao: TodoItemDao,
     private val dataSource: dagger.Lazy<DataSource>,
 ) {
     private val TAG = "TodoItemRepository"
     private val _itemList = MutableLiveData<List<TodoItem>>()
-    private val todoItemDao = todoItemDatabase.get().todoItemDao()
     val itemList: LiveData<List<TodoItem>> = _itemList
 
     suspend fun updateTodoList() {

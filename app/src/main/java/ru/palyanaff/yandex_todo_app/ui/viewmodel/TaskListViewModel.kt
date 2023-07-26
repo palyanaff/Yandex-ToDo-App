@@ -6,13 +6,15 @@ import kotlinx.coroutines.launch
 import ru.palyanaff.yandex_todo_app.data.datasource.DataSource
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
 import ru.palyanaff.yandex_todo_app.data.repository.TodoItemRepository
+import javax.inject.Inject
 
-class TaskListViewModel(
+class TaskListViewModel @Inject constructor(
     private val todoItemRepository: TodoItemRepository
 ) : ViewModel() {
-    val taskList = todoItemRepository.itemList.map { list ->
-        list.map { it }
-    }
+
+    private var _taskList = MutableLiveData<List<TodoItem>>()
+    val taskList: LiveData<List<TodoItem>> = _taskList
+
 
     init {
         getTaskList()
@@ -21,10 +23,11 @@ class TaskListViewModel(
     fun getTaskList() {
         viewModelScope.launch {
             todoItemRepository.updateTodoList()
+            _taskList = todoItemRepository.itemList as MutableLiveData<List<TodoItem>>
         }
     }
 
-    fun getCompleteTasks() = todoItemRepository.itemList.value?.count { it.complete }
+    fun getCompleteTasks() = _taskList.value?.count { it.complete }
 
     fun deleteItem(id: Int) = viewModelScope.launch {
         todoItemRepository.deleteById(id)
