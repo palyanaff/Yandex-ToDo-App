@@ -32,11 +32,10 @@ class TaskCallback(
         when (direction) {
             ItemTouchHelper.LEFT -> {
                 viewModel.deleteItem(position)
-                adapter.notifyItemRemoved(position)
             }
             ItemTouchHelper.RIGHT -> {
                 viewModel.setTaskComplete(position)
-                adapter.notifyItemRemoved(position)
+                adapter.notifyItemChanged(position)
             }
         }
     }

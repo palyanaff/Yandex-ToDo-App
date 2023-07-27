@@ -1,11 +1,12 @@
 package ru.palyanaff.yandex_todo_app.data.model
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodoItemDao {
     @Query("SELECT * FROM todo_items")
-    suspend fun getAll(): List<TodoItem>
+    fun getAll(): Flow<List<TodoItem>>
 
     @Query("SELECT * FROM todo_items WHERE id = :itemId")
     suspend fun findById(itemId: Int): TodoItem

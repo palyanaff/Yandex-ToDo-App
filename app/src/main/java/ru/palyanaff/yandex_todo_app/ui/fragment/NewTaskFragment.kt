@@ -133,8 +133,9 @@ class NewTaskFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.setText(editText.text.toString().trim())
-
+        if (editText != null) {
+            viewModel.setText(editText.text.toString().trim())
+        }
     }
 
     /**

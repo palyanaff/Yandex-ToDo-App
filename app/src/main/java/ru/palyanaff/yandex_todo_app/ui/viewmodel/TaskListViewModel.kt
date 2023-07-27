@@ -16,48 +16,26 @@ class TaskListViewModel @Inject constructor(
     private val todoItemRepository: TodoItemRepository,
 ) : ViewModel() {
 
-    private var _taskList = MutableLiveData<List<TodoItem>>()
-    val taskList: LiveData<List<TodoItem>> = _taskList
+    val taskList: LiveData<List<TodoItem>> = todoItemRepository.itemList.asLiveData()
 
-    init {
-        viewModelScope.launch {
-            todoItemRepository.updateTodoList()
-        }
-        todoItemRepository.itemList.observeForever { tasks ->
-            _taskList.value = tasks
-        }
-    }
-
-    fun getCompleteTasks() = _taskList.value?.count { it.complete }
+    fun getCompleteTasks() = taskList.value?.count { it.complete }
 
     fun deleteItem(index: Int) = viewModelScope.launch {
-        val item = _taskList.value?.get(index)
+        val item = taskList.value?.get(index)
         if (item != null) {
             todoItemRepository.deleteItem(item)
-            Log.e("TaskListViewModel", _taskList.value.toString())
-            //getTaskList() // TODO change to observer
+            Log.e("TaskListViewModel", taskList.value.toString())
         }
     }
 
     fun setTaskComplete(index: Int) = viewModelScope.launch {
-        val item = _taskList.value?.get(index)
+        val item = taskList.value?.get(index)
         if (item != null) {
             todoItemRepository.completeItem(item)
-            //todoItemRepository.updateTodoList()
-            //getTaskList() // TODO change to observer
         }
     }
 
     fun setTaskComplete(item: TodoItem) = viewModelScope.launch {
             todoItemRepository.completeItem(item)
-            //todoItemRepository.updateTodoList()
-            //getTaskList() // TODO change to observer
-    }
-
-    override fun onCleared() {
-        todoItemRepository.itemList.removeObserver { tasks ->
-            _taskList.value = tasks
-        }
-        super.onCleared()
     }
 }

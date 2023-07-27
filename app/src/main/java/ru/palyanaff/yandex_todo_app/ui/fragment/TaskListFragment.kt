@@ -36,6 +36,7 @@ class TaskListFragment : Fragment() {
     private lateinit var adapter: TaskAdapter
 
     private val viewModel: TaskListViewModel by viewModels { component.viewModelFactory() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         component = (requireActivity().applicationContext as App)
             .applicationComponent
@@ -53,15 +54,15 @@ class TaskListFragment : Fragment() {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_task_list, container, false)
         recyclerView = view.findViewById(R.id.task_list_recycler_view)
+        adapter = component.getAdapter()
         callback = TaskCallback(
             viewModel,
-            component.getAdapter(),
+            adapter,
             0,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         )
         itemTouchHelper = ItemTouchHelper(callback)
         countText = view.findViewById(R.id.complete_text_view)
-        adapter = component.getAdapter()
         setUpTaskList()
 
         val fab = view.findViewById<FloatingActionButton>(R.id.add_task_button)
@@ -86,11 +87,6 @@ class TaskListFragment : Fragment() {
                     "Complete - ${viewModel.getCompleteTasks()}" //TODO: change to string recurse
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        //fragmentViewComponent = null
     }
 
 }
