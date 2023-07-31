@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.navArgument
 import kotlinx.coroutines.launch
 import ru.palyanaff.yandex_todo_app.data.datasource.DataSource
 import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
@@ -16,6 +17,7 @@ class NewTaskViewModel @Inject constructor(
     private val todoItemRepository: TodoItemRepository
 ) : ViewModel() {
     private val TAG = "NewTaskViewModel"
+    private var refactorStatus = false
 
     private var _taskItem = MutableLiveData<TodoItem>()
     val taskItem: LiveData<TodoItem> = _taskItem
@@ -24,26 +26,36 @@ class NewTaskViewModel @Inject constructor(
         _taskItem.value = TodoItem(0)
     }
 
+    fun setRefactorStatus(id: Int) {
+        if (id != -1) {
+            viewModelScope.launch {
+                refactorStatus = true
+                _taskItem.value = todoItemRepository.findItem(id)
+            }
+        }
+    }
+
     fun setText(text: String?) {
         if (text != null) {
             _taskItem.value!!.text = text
         }
-
     }
 
     fun setDeadline(deadline: String?) {
         _taskItem.value!!.deadlineDate = deadline
-
     }
 
     fun setPriority(priority: PriorityStatus) {
         _taskItem.value!!.priority = priority
-
     }
 
     fun saveTodoItem() = viewModelScope.launch {
         _taskItem.value?.let {
-            todoItemRepository.addItem(it)
+            if (!refactorStatus) {
+                todoItemRepository.addItem(it)
+            } else {
+                todoItemRepository.editItem(it)
+            }
         }
     }
 }

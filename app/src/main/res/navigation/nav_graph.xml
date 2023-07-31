@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_task_list" >
         <action
             android:id="@+id/action_taskListFragment_to_newTaskFragment"
-            app:destination="@id/newTaskFragment" />
+            app:destination="@id/newTaskFragment" >
+            <argument
+                android:name="id"
+                android:defaultValue="-1" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/newTaskFragment"
@@ -22,5 +26,9 @@
         <action
             android:id="@+id/action_newTaskFragment_to_taskListFragment"
             app:destination="@id/taskListFragment" />
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 </navigation>

@@ -27,6 +27,10 @@ class TodoItemRepository @Inject constructor(
 
     suspend fun completeItem(item: TodoItem) {
         item.complete = !item.complete
+        editItem(item)
+    }
+
+    suspend fun editItem(item: TodoItem) {
         todoItemDao.editItem(item)
     }
 

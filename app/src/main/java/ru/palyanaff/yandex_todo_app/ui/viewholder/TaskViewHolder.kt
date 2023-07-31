@@ -6,11 +6,14 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import ru.palyanaff.yandex_todo_app.R
 import ru.palyanaff.yandex_todo_app.data.model.PriorityStatus
 import ru.palyanaff.yandex_todo_app.data.model.TodoItem
+import ru.palyanaff.yandex_todo_app.ui.fragment.NewTaskFragment
+import ru.palyanaff.yandex_todo_app.ui.fragment.TaskListFragmentDirections
 import ru.palyanaff.yandex_todo_app.ui.viewmodel.TaskListViewModel
 
 class TaskViewHolder(
@@ -78,6 +81,7 @@ class TaskViewHolder(
     }
 
     private fun openTask(todoItem: TodoItem) { // TODO: send TodoItem in fragment
-        itemView.findNavController().navigate(R.id.action_taskListFragment_to_newTaskFragment)
+        val action = TaskListFragmentDirections.actionTaskListFragmentToNewTaskFragment(todoItem.id)
+        itemView.findNavController().navigate(action)
     }
 }

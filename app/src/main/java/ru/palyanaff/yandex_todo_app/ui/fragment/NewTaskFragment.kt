@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import ru.palyanaff.yandex_todo_app.App
 import ru.palyanaff.yandex_todo_app.R
 import ru.palyanaff.yandex_todo_app.data.database.TodoItemDatabase
@@ -36,8 +37,6 @@ class NewTaskFragment : Fragment() {
     private lateinit var component: NewTaskFragmentComponent
 
     private val viewModel: NewTaskViewModel by viewModels { component.viewModelFactory() }
-   /* @Inject
-    lateinit var viewModel: NewTaskViewModel*/
 
     private lateinit var editText: EditText //TODO: reform edit text
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +53,11 @@ class NewTaskFragment : Fragment() {
     ): View? {
         // Initialize all views on screen
         val view: View = inflater.inflate(R.layout.fragment_new_task, container, false)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val saveText = view.findViewById<TextView>(R.id.save_task_text)
         val deleteButton = view.findViewById<ImageButton>(R.id.delete_image_button)
@@ -65,39 +69,40 @@ class NewTaskFragment : Fragment() {
         val priorityLabelText = view.findViewById<TextView>(R.id.priority_label_text)
         editText = view.findViewById<EditText>(R.id.new_edit_text)
 
+        val args: NewTaskFragmentArgs by navArgs()
+        viewModel.setRefactorStatus(args.id)
+
         // TODO: change requireActivity to lifecycleOwner
         viewModel.taskItem.observe(requireActivity()) { newItem ->
             newItem.let {
-                dateText.text = newItem.deadlineDate
-                when (newItem.priority) {
+                dateText.text = it.deadlineDate
+                when (it.priority) {
                     PriorityStatus.HIGH -> priorityText.text = getString(R.string.high)
                     PriorityStatus.NORMAL -> priorityText.text = getString(R.string.normal)
                     PriorityStatus.LOW -> priorityText.text = getString(R.string.low)
                 }
-                editText.setText(newItem.text)
+                editText.setText(it.text)
             }
         }
-        Log.e(TAG, viewModel.taskItem.value?.priority.toString())
 
         val popupMenu = PopupMenu(view.context, priorityLabelText)
         popupMenu.menuInflater.inflate(R.menu.menu_priority, popupMenu.menu)
 
         popupMenu.setOnMenuItemClickListener { menuItem ->
-            // TODO: set priority to TodoItem
             when (menuItem.itemId) {
                 R.id.priority_high -> {
                     viewModel.setPriority(PriorityStatus.HIGH)
-                    //priorityText.text = getString(R.string.high)
+                    priorityText.text = getString(R.string.high)
                     true
                 }
                 R.id.priority_normal -> {
                     viewModel.setPriority(PriorityStatus.NORMAL)
-                    //priorityText.text = getString(R.string.normal)
+                    priorityText.text = getString(R.string.normal)
                     true
                 }
                 R.id.priority_low -> {
                     viewModel.setPriority(PriorityStatus.LOW)
-                    //priorityText.text = getString(R.string.low)
+                    priorityText.text = getString(R.string.low)
                     true
                 }
                 else -> false
@@ -128,7 +133,6 @@ class NewTaskFragment : Fragment() {
             }
         }
 
-        return view
     }
 
     override fun onDestroy() {
