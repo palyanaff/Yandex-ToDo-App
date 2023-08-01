@@ -37,7 +37,7 @@ class NewTaskViewModel @Inject constructor(
 
     fun setText(text: String?) {
         if (text != null) {
-            _taskItem.value!!.text = text
+            _taskItem.value!!.text = text.trim()
         }
     }
 
@@ -49,6 +49,10 @@ class NewTaskViewModel @Inject constructor(
         _taskItem.value!!.priority = priority
     }
 
+    /**
+     * If item is refactoring, edit it in the db
+     * Else add it in the db
+     */
     fun saveTodoItem() = viewModelScope.launch {
         _taskItem.value?.let {
             if (!refactorStatus) {
@@ -56,6 +60,15 @@ class NewTaskViewModel @Inject constructor(
             } else {
                 todoItemRepository.editItem(it)
             }
+        }
+    }
+
+    /**
+     * If item is refactoring, delete it from the db
+     */
+    fun deleteTodoItem() = viewModelScope.launch {
+        if (refactorStatus) {
+            _taskItem.value?.let { todoItemRepository.deleteItem(it) }
         }
     }
 }

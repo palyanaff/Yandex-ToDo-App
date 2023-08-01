@@ -182,6 +182,7 @@ class NewTaskFragment : Fragment() {
      */
     private fun deleteTask() {
         findNavController().navigate(R.id.action_newTaskFragment_to_taskListFragment)
+        viewModel.deleteTodoItem()
     }
 
     /**
