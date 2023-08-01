@@ -3,19 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="14dp"
-    android:paddingBottom="14dp">
+    android:paddingBottom="4dp"
+    android:paddingTop="4dp">
     <!--TODO: Change background color-->
 
     <CheckBox
         android:id="@+id/complete_check_box"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:checked="false"
+        style="@style/CheckboxStyle.High"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-        <!--android:buttonTint="@color/checkbox_button_tint"-->
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/item_text"
@@ -30,9 +26,10 @@
         android:textSize="16sp"
         app:drawableStartCompat="@drawable/priority_high"
         app:drawableTint="@color/red"
+        app:layout_constraintBottom_toBottomOf="@+id/complete_check_box"
         app:layout_constraintEnd_toStartOf="@id/info_image_button"
         app:layout_constraintStart_toEndOf="@+id/complete_check_box"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/complete_check_box" />
 
     <ImageButton
         android:id="@+id/info_image_button"
@@ -42,7 +39,7 @@
         android:background="@null"
         android:src="@drawable/info"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/item_text"
         app:tint="@color/tertiary" />
 
     <TextView

@@ -12,4 +12,5 @@
     <string name="high">High</string>
     <string name="low">Low</string>
     <string name="normal">Normal</string>
+    <string name="new_task">New</string>
 </resources>
